@@ -10,7 +10,7 @@ class Environment {
 	public:
 	~Environment();
 	std::vector<Particle*> particles;
-	void render(std::int32_t delta);
+	void render(sf::RenderWindow* window, ::int32_t delta);
 };
 
 #endif

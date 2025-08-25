@@ -36,7 +36,7 @@ int main() {
         ImGui::End();
 
         window.clear();
-		env.render(delta);
+		env.render(&window, delta);
 
         ImGui::SFML::Render(window);
         window.display();

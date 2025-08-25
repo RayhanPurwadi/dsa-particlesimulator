@@ -8,7 +8,7 @@ class Body2D {
 	public:
 	ImVec2 position;
 	ImVec2 size;
-	virtual void render(std::int32_t delta) = 0;
+	virtual void render(sf::RenderWindow* window, ::int32_t delta) = 0;
 };
 
 

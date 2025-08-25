@@ -1,8 +1,8 @@
 #include "environment.hpp"
 
-void Environment::render(std::int32_t delta) {
+void Environment::render(sf::RenderWindow* window, ::int32_t delta) {
 	for (auto particle : particles) {
-		particle->render(delta);
+		particle->render(window, delta);
 	}
 }
 

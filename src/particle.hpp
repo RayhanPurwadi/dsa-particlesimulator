@@ -1,12 +1,12 @@
 #ifndef __PARTICLE_H
 #define __PARTICLE_H
 
-#include "kineticbody2d.hpp"
+#include "circle.hpp"
 
-class Particle : public KineticBody2D {
+class Particle : public Circle {
 	public:
-	Particle() : KineticBody2D() {};
-	virtual void render(std::int32_t delta) override;
+	Particle() : Circle() {};
+	virtual void render(sf::RenderWindow* window, std::int32_t delta) override;
 };
 
 #endif
