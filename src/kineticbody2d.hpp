@@ -3,6 +3,9 @@
 
 #include "collisionbody2d.hpp"
 
-class KineticBody2D : public CollisionBody2D {};
+class KineticBody2D : public CollisionBody2D {
+	public:
+	KineticBody2D() : CollisionBody2D() {};
+};
 
 #endif

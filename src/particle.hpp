@@ -5,7 +5,8 @@
 
 class Particle : public KineticBody2D {
 	public:
-	Particle();
+	Particle() : KineticBody2D() {};
+	virtual void render(std::int32_t delta) override;
 };
 
 #endif

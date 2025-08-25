@@ -1,10 +1,15 @@
 #ifndef __BODY2D_H
 #define __BODY2D_H
 
+#include <imgui.h>
+#include <cstdint>
+
 class Body2D {
 	public:
-	float x, y;
-	virtual void render() = 0;
+	ImVec2 position;
+	ImVec2 size;
+	virtual void render(std::int32_t delta) = 0;
 };
+
 
 #endif
