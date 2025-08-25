@@ -1,10 +1,9 @@
 # Particle Simulator
 
-Nama | Rayhan Diah Purwadi
--- | --
-NRP | 5024241032
-Kelas | A
-Dosen | Arta Kusuma Hernanda, S.T., M.T.
+&nbsp; | &nbsp; | &nbsp; | &nbsp;
+-- | -- | -- | --
+**Nama** | Rayhan Diah Purwadi | **Dosen** | Arta Kusuma Hernanda, S.T., M.T.
+**NRP** | 5024241032 | **Kelas** | A
 
 ## Building
 
