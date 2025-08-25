@@ -1,17 +1,15 @@
 #include <SFML/Graphics.hpp>
+#include <optional>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({500, 500}), "Particle Simulator :: Rayhan - 5024241032");
 	
 	while (window.isOpen())
 	{
-		sf::Event event;
-		while (window.pollEvent(event))
+		while (const std::optional event = window.pollEvent())
 		{
-			if (event.type == sf::Event::Closed)
-			{
+			if (event->is<sf::Event::Closed>())
 				window.close();
-			}
 		}
 
 		window.clear();
