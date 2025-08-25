@@ -31,8 +31,8 @@ int main() {
 		std::int32_t delta = sfDelta.asMilliseconds();
 		ImGui::SFML::Update(window, sfDelta);
 
-        ImGui::Begin("Test Window");
-        ImGui::Button("LOOK AT ME");
+        ImGui::Begin("Configuration");
+        ImGui::Button("hi");
         ImGui::End();
 
         window.clear();
