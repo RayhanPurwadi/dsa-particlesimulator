@@ -9,6 +9,7 @@ class Particle : public Circle {
 	public:
 	size_t speed;
 	ImVec2 direction;
+	bool haveINeverEverDoThis;
 	
 	Particle() : Circle() {};
 	virtual void render(sf::RenderWindow* window, std::int32_t delta) override;

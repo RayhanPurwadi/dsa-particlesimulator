@@ -43,7 +43,10 @@ sf::Color determine_color(size_t speed) {
 #undef clamp
 
 void Particle::render(sf::RenderWindow* window, ::int32_t delta) {
-	_circle.setFillColor(determine_color(speed));
+	if (!haveINeverEverDoThis) {
+		_circle.setFillColor(determine_color(speed));
+		haveINeverEverDoThis = true;
+	}
 	Circle::render(window, delta);
 }
 
