@@ -5,7 +5,7 @@ build:
 	ext/imgui-sfml/imgui-SFML.cpp \
 	ext/imgui/imgui.cpp ext/imgui/imgui_widgets.cpp ext/imgui/imgui_draw.cpp ext/imgui/imgui_tables.cpp \
 	-o ./particlesimulator \
-	-Iext/imgui -Iext/imgui-sfml \
+	-Iext/imgui -Iext/imgui-sfml -Isrc \
 	-Iext/SFML-3.0.0/include -Lext/SFML-3.0.0/lib \
 	-lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lGL \
 	-lX11 -lXrandr -ludev -lfreetype -lXi -lXcursor
