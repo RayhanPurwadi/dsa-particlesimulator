@@ -4,3 +4,5 @@
 [submodule "ext/imgui-sfml"]
 	path = ext/imgui-sfml
 	url = https://github.com/SFML/imgui-sfml
+[submodule "ext/imgui-sfml/"]
+	url = https://github.com/RayhanPurwadi/hanz-imgui-sfml
