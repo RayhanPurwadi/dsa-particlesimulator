@@ -1,0 +1,6 @@
+[submodule "ext/imgui"]
+	path = ext/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "ext/imgui-sfml"]
+	path = ext/imgui-sfml
+	url = https://github.com/SFML/imgui-sfml
