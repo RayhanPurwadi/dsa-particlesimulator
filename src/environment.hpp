@@ -7,10 +7,13 @@
 #include "particle.hpp"
 
 class Environment {
+	private:
+	std::vector<Particle*> _particles;
+
 	public:
 	~Environment();
-	std::vector<Particle*> particles;
-	void render(sf::RenderWindow* window, ::int32_t delta);
+	void render(sf::RenderWindow* window, std::int32_t delta);
+	size_t create_particle(ImVec2 pos, ImVec2 size, size_t speed, ImVec2 initial_direction);
 };
 
 #endif
