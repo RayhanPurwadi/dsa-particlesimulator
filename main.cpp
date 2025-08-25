@@ -31,6 +31,8 @@ int main() {
         ImGui::End();
 
         window.clear();
+		
+
         ImGui::SFML::Render(window);
         window.display();
 
