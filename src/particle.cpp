@@ -46,3 +46,8 @@ void Particle::render(sf::RenderWindow* window, ::int32_t delta) {
 	_circle.setFillColor(determine_color(speed));
 	Circle::render(window, delta);
 }
+
+void Particle::process_physics(std::int32_t delta) {
+	apply_velocity({direction.x * speed, direction.y * speed});
+	KineticBody2D::process_physics(delta);
+}

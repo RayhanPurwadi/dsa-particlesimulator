@@ -5,6 +5,8 @@
 #include <imgui.h>
 #include <cstdint>
 
+#define SECOND 1000
+
 class Body2D {
 	public:
 	ImVec2 position;

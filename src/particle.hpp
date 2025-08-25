@@ -12,6 +12,7 @@ class Particle : public Circle {
 	
 	Particle() : Circle() {};
 	virtual void render(sf::RenderWindow* window, std::int32_t delta) override;
+	virtual void process_physics(std::int32_t delta) override;
 };
 
 #endif

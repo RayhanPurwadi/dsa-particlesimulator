@@ -2,6 +2,7 @@
 
 void Environment::render(sf::RenderWindow* window, ::int32_t delta) {
 	for (auto particle : _particles) {
+		particle->process_physics(delta);
 		particle->render(window, delta);
 	}
 }
