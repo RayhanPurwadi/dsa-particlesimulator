@@ -1,6 +1,8 @@
 #ifndef __PARTICLE_H
 #define __PARTICLE_H
 
+#include <math.h>
+
 #include "circle.hpp"
 
 class Particle : public Circle {

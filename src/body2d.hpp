@@ -1,6 +1,7 @@
 #ifndef __BODY2D_H
 #define __BODY2D_H
 
+#include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <cstdint>
 

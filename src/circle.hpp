@@ -10,7 +10,7 @@
  * @brief Collision circle thingy lmao
  */
 class Circle : public KineticBody2D {
-	private:
+	protected:
 	sf::CircleShape _circle;
 	public:
 	Circle() : KineticBody2D() {};

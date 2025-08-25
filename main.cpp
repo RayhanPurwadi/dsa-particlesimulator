@@ -21,6 +21,9 @@ int main() {
 	Environment env;
 	sf::Clock deltaClock;
 
+	// show balls
+	for (int i = 0; i < 30; i++) env.create_particle({50 + 30*i, 50}, {10, 10}, 0 + 10*i, {10, -1});
+
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
 			ImGui::SFML::ProcessEvent(window, *event);
