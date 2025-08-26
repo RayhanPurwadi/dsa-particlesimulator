@@ -62,12 +62,13 @@ void Particle::process_physics(std::int32_t delta) {
 	ImVec2 arenaSize = env->arenaSize;
 	/// X-axis movenet
 	bool bounceX = false;
-	if (position.x < 0 || position.x > arenaSize.x) {
+	if (position.x < 0 || position.x + size.x*2 > arenaSize.x) {
 		bounceX = true;
 	}
 	// Y-axis movement
 	bool bounceY = false;
-	if (position.y < 0 || position.y > arenaSize.y) {
+	// TODO: size.x is used as radius because (see circle.cpp:5) this should be changed.
+	if (position.y < 0 || position.y + size.x*2 > arenaSize.y) {
 		bounceY = true;
 	}
 	
