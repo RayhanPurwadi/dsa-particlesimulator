@@ -1,4 +1,5 @@
 #include "particle.hpp"
+#include "environment.hpp"
 
 // This RGBRotate has been adapted from python to c++ from here:
 // https://stackoverflow.com/a/8510751
@@ -51,6 +52,42 @@ void Particle::render(sf::RenderWindow* window, ::int32_t delta) {
 }
 
 void Particle::process_physics(std::int32_t delta) {
+	float oldX = position.x;
+	float oldY = position.y;
+
 	apply_velocity({direction.x * speed, direction.y * speed});
 	KineticBody2D::process_physics(delta);
+
+	// Arena as Bounding Box
+	ImVec2 arenaSize = env->arenaSize;
+	/// X-axis movenet
+	bool bounceX = false;
+	if (position.x < 0 || position.x > arenaSize.x) {
+		bounceX = true;
+	}
+	// Y-axis movement
+	bool bounceY = false;
+	if (position.y < 0 || position.y > arenaSize.y) {
+		bounceY = true;
+	}
+	
+	// Reset simulated position
+	position.x = oldX;
+	position.y = oldY;
+	
+	// Apply bounce
+	if (bounceX) {
+		velocity.x *= -1;
+		direction.x *= -1;
+	}
+	if (bounceY) {
+		velocity.y *= -1;
+		direction.y *= -1;
+	}
+
+	// Calculate new uhh
+	float appliedX = velocity.x * MULTIPLIER * delta / SECOND;
+	float appliedY = velocity.y * MULTIPLIER * delta / SECOND;
+	position.x += appliedX;
+	position.y += appliedY;
 }

@@ -3,7 +3,7 @@
 
 #include "collisionbody2d.hpp"
 
-#define MULTIPLIER 1
+#define MULTIPLIER 2
 
 class Environment;
 
