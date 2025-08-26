@@ -8,8 +8,9 @@
 class Particle : public Circle {
 	public:
 	size_t speed;
-	ImVec2 direction;
+	ImVec2 velocity;
 	bool haveINeverEverDoThis;
+	Particle* lastCollided;
 	
 	Particle() : Circle() {};
 	virtual void render(sf::RenderWindow* window, std::int32_t delta) override;

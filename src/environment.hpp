@@ -10,14 +10,12 @@
 class Particle;
 
 class Environment {
-	private:
-	std::vector<Particle*> _particles;
-
 	public:
+	std::vector<Particle*> particles;
 	ImVec2 arenaSize;
 	~Environment();
 	void render(sf::RenderWindow* window, std::int32_t delta);
-	size_t create_particle(ImVec2 pos, ImVec2 size, size_t speed, ImVec2 initial_direction);
+	size_t create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velocity);
 };
 
 #include "particle.hpp" // dont touch it'll break idk why

@@ -44,51 +44,83 @@ sf::Color determine_color(size_t speed) {
 #undef clamp
 
 void Particle::render(sf::RenderWindow* window, ::int32_t delta) {
-	if (!haveINeverEverDoThis) {
-		_circle.setFillColor(determine_color(speed));
-		haveINeverEverDoThis = true;
-	}
-	Circle::render(window, delta);
+    if (!haveINeverEverDoThis) {
+        _circle.setFillColor(determine_color(speed));
+        haveINeverEverDoThis = true;
+    }
+    Circle::render(window, delta);
 }
 
 void Particle::process_physics(std::int32_t delta) {
-	float oldX = position.x;
-	float oldY = position.y;
+    // Save old position
+    float oldX = position.x;
+    float oldY = position.y;
 
-	apply_velocity({direction.x * speed, direction.y * speed});
-	KineticBody2D::process_physics(delta);
+    // Update velocity (direction and speed only used for initialization)
+    // If you want to change direction, set velocity = {direction.x * speed, direction.y * speed};
+    KineticBody2D::process_physics(delta);
 
-	// Arena as Bounding Box
-	ImVec2 arenaSize = env->arenaSize;
-	/// X-axis movenet
-	bool bounceX = false;
-	if (position.x < 0 || position.x + size.x*2 > arenaSize.x) {
-		bounceX = true;
-	}
-	// Y-axis movement
-	bool bounceY = false;
-	// TODO: size.x is used as radius because (see circle.cpp:5) this should be changed.
-	if (position.y < 0 || position.y + size.x*2 > arenaSize.y) {
-		bounceY = true;
-	}
-	
-	// Reset simulated position
-	position.x = oldX;
-	position.y = oldY;
-	
-	// Apply bounce
-	if (bounceX) {
-		velocity.x *= -1;
-		direction.x *= -1;
-	}
-	if (bounceY) {
-		velocity.y *= -1;
-		direction.y *= -1;
-	}
+    ImVec2 arenaSize = env->arenaSize;
+    float radius = size.x;
 
-	// Calculate new uhh
-	float appliedX = velocity.x * MULTIPLIER * delta / SECOND;
-	float appliedY = velocity.y * MULTIPLIER * delta / SECOND;
-	position.x += appliedX;
-	position.y += appliedY;
+    // Move particle
+    float appliedX = velocity.x * MULTIPLIER * delta / SECOND;
+    float appliedY = velocity.y * MULTIPLIER * delta / SECOND;
+    position.x += appliedX;
+    position.y += appliedY;
+
+    // Arena bounds collision (for top-left origin, size.x is radius)
+    if (position.x < 0) {
+        position.x = 0;
+        velocity.x = fabs(velocity.x);
+    } else if (position.x + radius * 2 > arenaSize.x) {
+        position.x = arenaSize.x - radius * 2;
+        velocity.x = -fabs(velocity.x);
+    }
+    if (position.y < 0) {
+        position.y = 0;
+        velocity.y = fabs(velocity.y);
+    } else if (position.y + radius * 2 > arenaSize.y) {
+        position.y = arenaSize.y - radius * 2;
+        velocity.y = -fabs(velocity.y);
+    }
+
+    // Particle-particle collision
+    for (Particle *other : env->particles) {
+        if (other == this) continue;
+        float oRad = other->size.x;
+        ImVec2 oPos = other->position;
+        float dx = position.x - oPos.x;
+        float dy = position.y - oPos.y;
+        float dist = sqrt(dx*dx + dy*dy);
+        float minDist = radius + oRad;
+        if (dist < minDist && dist > 0) {
+            // Resolve overlap
+            float overlap = minDist - dist;
+            float nx = dx / dist;
+            float ny = dy / dist;
+            position.x += nx * (overlap/2);
+            position.y += ny * (overlap/2);
+            other->position.x -= nx * (overlap/2);
+            other->position.y -= ny * (overlap/2);
+
+            // Elastic collision
+            float tx = -ny;
+            float ty = nx;
+            float dpTan1 = velocity.x * tx + velocity.y * ty;
+            float dpTan2 = other->velocity.x * tx + other->velocity.y * ty;
+            float dpNorm1 = velocity.x * nx + velocity.y * ny;
+            float dpNorm2 = other->velocity.x * nx + other->velocity.y * ny;
+            // Swap normal components
+            float v1n = dpNorm2;
+            float v2n = dpNorm1;
+            velocity.x = tx * dpTan1 + nx * v1n;
+            velocity.y = ty * dpTan1 + ny * v1n;
+            other->velocity.x = tx * dpTan2 + nx * v2n;
+            other->velocity.y = ty * dpTan2 + ny * v2n;
+        }
+    }
+
+    // Calculate speed from velocity for color
+    speed = sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 }
