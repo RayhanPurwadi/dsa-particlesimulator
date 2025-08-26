@@ -12,6 +12,7 @@
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({1600, 800}), "Particle Simulator :: Rayhan - 5024241032");
+	window.setFramerateLimit(90);
 	if (!ImGui::SFML::Init(window)) {
 		exit(1);
 	}
@@ -76,6 +77,7 @@ int main() {
             ImGui::DockBuilderFinish(dockspace_id);
         }
 
+		ImVec2 arenaSize = ImGui::GetWindowSize();
         ImGui::End();
 
 		ImGui::Begin("Configuration");
@@ -100,9 +102,11 @@ int main() {
 		ImGui::End();
 
 		window.clear();
-		env.render(&window, delta);
 
+		env.arenaSize = arenaSize;
+		env.render(&window, delta);
 		ImGui::SFML::Render(window);
+		
 		window.display();
 	}
 
