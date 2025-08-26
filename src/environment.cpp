@@ -19,6 +19,7 @@ size_t Environment::create_particle(ImVec2 pos, ImVec2 size, size_t speed, ImVec
 	p->size = size;
 	p->speed = speed;
 	p->direction = initial_direction;
+	p->env = this;
 
 	_particles.emplace_back(p);
 	

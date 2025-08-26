@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <cstdint>
+#include <cstddef>
+#include <imgui.h>
+#include <SFML/Graphics.hpp>
 
-#include "particle.hpp"
+class Particle;
 
 class Environment {
 	private:
@@ -16,5 +19,7 @@ class Environment {
 	void render(sf::RenderWindow* window, std::int32_t delta);
 	size_t create_particle(ImVec2 pos, ImVec2 size, size_t speed, ImVec2 initial_direction);
 };
+
+#include "particle.hpp" // dont touch it'll break idk why
 
 #endif
