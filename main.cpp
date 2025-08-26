@@ -23,7 +23,7 @@ int main() {
 	sf::Clock deltaClock;
 
 	// show balls
-	for (int i = 0; i < 30; i++) env.create_particle({50 + 30*i, 50}, {10, 10}, 0 + 10*i, {100, -1});
+	for (int i = 0; i < 5; i++) env.create_particle({50 + 30*i, 50}, {10, 10}, 0 + 10*i, {1, -1});
 
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
@@ -82,6 +82,7 @@ int main() {
 
 		ImGui::Begin("Configuration");
 		ImVec2 windowSize = ImGui::GetWindowSize();
+		arenaSize.x -= windowSize.x;
 
 		ImGui::SetWindowFontScale(1.3f);
 		ImGui::PushTextWrapPos(windowSize.x);
@@ -103,7 +104,9 @@ int main() {
 
 		window.clear();
 
-		env.arenaSize = arenaSize;
+		env.arenaSize.x = arenaSize.x;
+		env.arenaSize.y = arenaSize.y;
+		
 		env.render(&window, delta);
 		ImGui::SFML::Render(window);
 		
