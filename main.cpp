@@ -10,6 +10,12 @@
 
 #include "environment.hpp"
 
+enum SELECTED_TOOL {
+	SELECTED_TOOL_NOTHING,
+	SELECTED_TOOL_MOVE,
+	SELECTED_TOOL_SPAWN
+};
+
 int main() {
 	sf::RenderWindow window(sf::VideoMode({1600, 800}), "Particle Simulator :: Rayhan - 5024241032");
 	window.setFramerateLimit(144);
@@ -105,8 +111,30 @@ int main() {
 
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
-		ImGui::Text("Spawner");
+		ImGui::Text("Tools");
 		ImGui::SetWindowFontScale(1.0f);
+
+		static SELECTED_TOOL selectedTool = SELECTED_TOOL_NOTHING;
+		bool nothingTool = ImGui::SmallButton("Nothing");
+		ImGui::SameLine();
+		bool moveTool = ImGui::SmallButton("Move");
+		ImGui::SameLine();
+		bool spawnTool = ImGui::SmallButton("Spawn");
+
+		if (nothingTool) selectedTool = SELECTED_TOOL_NOTHING;
+		if (moveTool) selectedTool = SELECTED_TOOL_MOVE;
+		if (spawnTool) selectedTool = SELECTED_TOOL_SPAWN;
+
+		switch (selectedTool) {
+			case SELECTED_TOOL_NOTHING:
+			ImGui::Text("You selected a Nothing Tool");
+			ImGui::Text("This tool does nothing.");
+			break;
+			case SELECTED_TOOL_MOVE:
+			break;
+			case SELECTED_TOOL_SPAWN:
+			break;
+		}
 
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);

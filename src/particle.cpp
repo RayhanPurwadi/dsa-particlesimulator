@@ -119,7 +119,7 @@ void Particle::process_physics(std::int32_t delta) {
 
         // N-Body simulation
         if (env->nBodyMode && dist > 0) {
-#define G_CONSTANT 1e-1
+#define G_CONSTANT 8e-1
             double epsilon = 1.0f; // Softening factor
             double r = dist;
             double force = (G_CONSTANT * mass * other->mass) / (r * r + epsilon);
