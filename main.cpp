@@ -18,7 +18,7 @@ enum SELECTED_TOOL {
 };
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode({1600, 800}), "Particle Simulator :: Rayhan - 5024241032");
+	sf::RenderWindow window(sf::VideoMode({2200, 1200}), "Particle Simulator :: Rayhan - 5024241032");
 	window.setFramerateLimit(144);
 	if (!ImGui::SFML::Init(window)) {
 		exit(1);

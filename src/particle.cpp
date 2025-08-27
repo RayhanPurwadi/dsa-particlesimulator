@@ -70,17 +70,17 @@ void Particle::process_physics(std::int32_t delta) {
     // Arena bounds collision (for top-left origin, size.x is radius)
     if (position.x - radius < 0) {
         position.x = radius;
-        velocity.x = fabs(velocity.x);
+        velocity.x = -velocity.x;
     } else if (position.x + radius > arenaSize.x) {
         position.x = arenaSize.x - radius;
-        velocity.x = -fabs(velocity.x);
+        velocity.x = -velocity.x;
     }
     if (position.y - radius < 0) {
         position.y = radius;
-        velocity.y = fabs(velocity.y);
+        velocity.y = -velocity.y;
     } else if (position.y + radius > arenaSize.y) {
         position.y = arenaSize.y - radius;
-        velocity.y = -fabs(velocity.y);
+        velocity.y = -velocity.y;
     }
 
     ImVec2 totalAcc = {0, 0};
@@ -99,8 +99,41 @@ void Particle::process_physics(std::int32_t delta) {
         float nx = dx / dist;
         float ny = dy / dist;
 
-        // Particle-particle collision
-        if (dist < minDist && dist > 0) {
+        // Particle-particle collision for n-body sim
+        if (env->nBodyMode && dist < minDist && dist > 0) {
+            float m1 = mass;
+            float m2 = other->mass;
+
+            float v1n = velocity.x * nx + velocity.y * ny;
+            float v2n = other->velocity.x * nx + other->velocity.y * ny;
+
+            const float restitution = 0.8f;
+
+            float v1nNew = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
+            float v2nNew = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
+
+            v1nNew *= restitution;
+            v2nNew *= restitution;
+
+            float tx = -ny;
+            float ty = nx;
+            float v1t = velocity.x * tx + velocity.y * ty;
+            float v2t = other->velocity.x * tx + other->velocity.y * ty;
+
+            velocity.x = v1nNew * nx + v1t * tx;
+            velocity.y = v1nNew * ny + v1t * ty;
+            other->velocity.x = v2nNew * nx + v2t * tx;
+            other->velocity.y = v2nNew * ny + v2t * ty;
+
+            float totalMass = m1 + m2;
+            float move1 = (m2 / totalMass) * overlap;
+            float move2 = (m1 / totalMass) * overlap;
+            position.x += nx * (move1/2);
+            position.y += ny * (move1/2);
+            other->position.x -= nx * (move2/2);
+            other->position.y -= ny * (move2/2);
+        } else if (!env->nBodyMode && dist < minDist && dist > 0) {
+            // Particle-particle collision for non n-body sim
             // Elastic collision
             float tx = -ny;
             float ty = nx;
