@@ -131,6 +131,26 @@ int main() {
 			ImGui::Text("This tool does nothing.");
 			break;
 			case SELECTED_TOOL_MOVE:
+			ImGui::Text("You selected a Move Tool");
+			ImGui::Text("This tool can move balls when you drag them.");
+
+			if (ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+				ImVec2 mPos = ImGui::GetMousePos();
+				for (auto* p : env.particles) {
+					if (
+						p->position.x - p->size.x < mPos.x &&
+						mPos.x                    < p->position.x + p->size.x &&
+						p->position.y - p->size.y < mPos.y &&
+						mPos.y                    < p->position.y + p->size.y &&
+						env.selectedBall == NULL
+					) {
+						env.selectedBall = p;
+						break;
+					}
+				}
+			} else {
+				env.selectedBall = NULL;
+			}
 			break;
 			case SELECTED_TOOL_SPAWN:
 			break;

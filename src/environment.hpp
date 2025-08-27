@@ -16,6 +16,7 @@ class Environment {
 	float timeScale = 1;
 	bool nBodyMode = false;
 	float maxSpeed = 1000.0f;
+	Particle* selectedBall;
 	
 	~Environment();
 	void render(sf::RenderWindow* window, std::int32_t delta);

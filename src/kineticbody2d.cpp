@@ -3,7 +3,7 @@
 
 void KineticBody2D::process_physics(std::int32_t delta) {
 	// gas saving
-	if (velocity.x + velocity.y == 0) return;
+	if (!physicsEnabled || velocity.x + velocity.y == 0) return;
 
 	float appliedX = velocity.x * env->timeScale * delta / SECOND;
 	float appliedY = velocity.y * env->timeScale * delta / SECOND;

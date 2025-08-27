@@ -158,4 +158,10 @@ void Particle::process_physics(std::int32_t delta) {
         velocity.x += totalAcc.x * env->timeScale * delta;
         velocity.y += totalAcc.y * env->timeScale * delta;
     }
+
+    if (env->selectedBall == this) {
+        ImVec2 mPos = ImGui::GetMousePos();
+        position.x = mPos.x;
+        position.y = mPos.y;
+    }
 }
