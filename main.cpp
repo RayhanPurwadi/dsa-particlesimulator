@@ -100,7 +100,9 @@ int main() {
 		ImGui::Text("Environment");
 		ImGui::SetWindowFontScale(1.0f);
 
-		ImGui::SliderFloat("Timescale", &env.timeScale, 0.0f, 100.0f);
+		ImGui::Text("Timescale");
+		ImGui::SameLine();
+		ImGui::SliderFloat("##Timescale", &env.timeScale, 0.0f, 100.0f);
 
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
