@@ -21,6 +21,7 @@ class Environment {
 	~Environment();
 	void render(sf::RenderWindow* window, std::int32_t delta);
 	size_t create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velocity, size_t mass);
+	void remove_particle(Particle* p);
 };
 
 #include "particle.hpp" // dont touch it'll break idk why

@@ -25,3 +25,13 @@ size_t Environment::create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velo
 	
 	return particles.size() - 1;
 }
+
+void Environment::remove_particle(Particle* p) {
+	for (size_t i = 0; i < particles.size(); i++) {
+		Particle* pp = particles.at(i);
+		if (pp == p) {
+			particles.erase(particles.begin() + i);
+			break;
+		}
+	}
+}

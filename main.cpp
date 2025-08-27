@@ -13,6 +13,7 @@
 enum SELECTED_TOOL {
 	SELECTED_TOOL_NOTHING,
 	SELECTED_TOOL_MOVE,
+	SELECTED_TOOL_DELETE,
 	SELECTED_TOOL_SPAWN
 };
 
@@ -119,10 +120,13 @@ int main() {
 		ImGui::SameLine();
 		bool moveTool = ImGui::SmallButton("Move");
 		ImGui::SameLine();
+		bool deleteTool = ImGui::SmallButton("Delete");
+		ImGui::SameLine();
 		bool spawnTool = ImGui::SmallButton("Spawn");
 
 		if (nothingTool) selectedTool = SELECTED_TOOL_NOTHING;
 		if (moveTool) selectedTool = SELECTED_TOOL_MOVE;
+		if (deleteTool) selectedTool = SELECTED_TOOL_DELETE;
 		if (spawnTool) selectedTool = SELECTED_TOOL_SPAWN;
 
 		switch (selectedTool) {
@@ -145,6 +149,28 @@ int main() {
 						env.selectedBall == NULL
 					) {
 						env.selectedBall = p;
+						break;
+					}
+				}
+			} else {
+				env.selectedBall = NULL;
+			}
+			break;
+			case SELECTED_TOOL_DELETE:
+			ImGui::Text("You selected a Move Tool");
+			ImGui::Text("This tool can move balls when you drag them.");
+
+			if (ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+				ImVec2 mPos = ImGui::GetMousePos();
+				for (auto* p : env.particles) {
+					if (
+						p->position.x - p->size.x < mPos.x &&
+						mPos.x                    < p->position.x + p->size.x &&
+						p->position.y - p->size.y < mPos.y &&
+						mPos.y                    < p->position.y + p->size.y &&
+						env.selectedBall == NULL
+					) {
+						env.remove_particle(p);
 						break;
 					}
 				}
