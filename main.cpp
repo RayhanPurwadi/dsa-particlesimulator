@@ -12,7 +12,7 @@
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({1600, 800}), "Particle Simulator :: Rayhan - 5024241032");
-	window.setFramerateLimit(90);
+	window.setFramerateLimit(144);
 	if (!ImGui::SFML::Init(window)) {
 		exit(1);
 	}
@@ -129,6 +129,8 @@ int main() {
 		ImGui::SetWindowFontScale(2.0f);
 		ImGui::Text("Stats");
 		ImGui::SetWindowFontScale(1.0f);
+
+		ImGui::Text("FPS: %.4f", (float)SECOND / (float)(delta > 0 ? delta : 1));
 
 		ImGui::PopTextWrapPos();
 		ImGui::SetWindowFontScale(1.0f);
