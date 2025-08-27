@@ -13,8 +13,9 @@ Environment::~Environment() {
 	}
 }
 
-size_t Environment::create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velocity) {
+size_t Environment::create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velocity, size_t mass) {
 	Particle* p = new Particle();
+	p->mass = mass;
 	p->position = pos;
 	p->size = size;
 	p->velocity = initial_velocity;

@@ -7,8 +7,7 @@
 
 class Particle : public Circle {
 	public:
-	size_t mass = 1000; // kg
-	size_t speed;
+	size_t mass; // kg
 	ImVec2 velocity;
 	bool haveINeverEverDoThis;
 	Particle* lastCollided;

@@ -37,15 +37,15 @@ class RGBRotate {
 #undef d2r
 
 #define clamp(v) (v < 190 ? 190 : (v % 361))
-sf::Color determine_color(size_t speed) {
-	RGBRotate r(clamp(190 + speed));
+sf::Color determine_color(size_t mass) {
+	RGBRotate r(clamp(190 + (mass / 10)));
 	return r.apply(sf::Color(130, 25, 200)); // balance red and blue to make purple, put some gren
 }
 #undef clamp
 
 void Particle::render(sf::RenderWindow* window, ::int32_t delta) {
     if (!haveINeverEverDoThis) {
-        _circle.setFillColor(determine_color(speed));
+        _circle.setFillColor(determine_color(mass));
         haveINeverEverDoThis = true;
     }
     Circle::render(window, delta);
@@ -56,8 +56,6 @@ void Particle::process_physics(std::int32_t delta) {
     float oldX = position.x;
     float oldY = position.y;
 
-    // Update velocity (direction and speed only used for initialization)
-    // If you want to change direction, set velocity = {direction.x * speed, direction.y * speed};
     KineticBody2D::process_physics(delta);
 
     ImVec2 arenaSize = env->arenaSize;
@@ -144,7 +142,4 @@ void Particle::process_physics(std::int32_t delta) {
         velocity.x += totalAcc.x * env->timeScale * delta;
         velocity.y += totalAcc.y * env->timeScale * delta;
     }
-
-    // Calculate speed from velocity for color
-    speed = sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 }

@@ -23,7 +23,12 @@ int main() {
 	sf::Clock deltaClock;
 
 	// show balls
-	for (int i = 0; i < 30; i++) env.create_particle({50 + 30*i, 50}, {10, 10}, {1 * (0 + 10*i), -1 * (0 + 10*i)});
+	for (int i = 0; i < 60; i++) env.create_particle(
+		{50 + 30*i, 50},
+		{10, 10},
+		{1 * (0 + 10*i), -1 * (0 + 10*i)},
+		100 + 500 * (int)(i/5)
+	);
 
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
