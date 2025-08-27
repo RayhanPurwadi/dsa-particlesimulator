@@ -121,6 +121,10 @@ int main() {
 		ImGui::SameLine();
 		ImGui::Checkbox("##N-Body", &env.nBodyMode);
 
+		ImGui::Text("Max Speed");
+		ImGui::SameLine();
+		ImGui::InputFloat("##Max Speed", &env.maxSpeed);
+
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
 		ImGui::Text("Stats");

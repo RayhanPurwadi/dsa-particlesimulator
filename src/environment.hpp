@@ -15,6 +15,7 @@ class Environment {
 	ImVec2 arenaSize;
 	float timeScale = 1;
 	bool nBodyMode = false;
+	float maxSpeed = 1000.0f;
 	
 	~Environment();
 	void render(sf::RenderWindow* window, std::int32_t delta);

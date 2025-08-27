@@ -94,18 +94,13 @@ void Particle::process_physics(std::int32_t delta) {
         double dy = position.y - oPos.y;
         double dist = sqrt(dx*dx + dy*dy);
 
-        // Particle-particle collision
         float minDist = radius + oRad;
-        if (dist < minDist && dist > 0) {
-            // Resolve overlap
-            float overlap = minDist - dist;
-            float nx = dx / dist;
-            float ny = dy / dist;
-            position.x += nx * (overlap/2);
-            position.y += ny * (overlap/2);
-            other->position.x -= nx * (overlap/2);
-            other->position.y -= ny * (overlap/2);
+        float overlap = minDist - dist;
+        float nx = dx / dist;
+        float ny = dy / dist;
 
+        // Particle-particle collision
+        if (dist < minDist && dist > 0) {
             // Elastic collision
             float tx = -ny;
             float ty = nx;
@@ -124,8 +119,8 @@ void Particle::process_physics(std::int32_t delta) {
 
         // N-Body simulation
         if (env->nBodyMode && dist > 0) {
-#define G_CONSTANT (double)(6.6743) * pow(10, -1) // use 10^-1 for simulation purpose
-            double epsilon = 1e-2; // Softening factor
+#define G_CONSTANT 1e-1
+            double epsilon = 1.0f; // Softening factor
             double r = dist;
             double force = (G_CONSTANT * mass * other->mass) / (r * r + epsilon);
             ImVec2 forceV = {
@@ -136,14 +131,28 @@ void Particle::process_physics(std::int32_t delta) {
             totalAcc.y += force * forceV.y / mass;
 #undef G_CONSTANT
         }
-    }
 
-    // Clamp velocity to prevent it from going nuts after resize
-    float maxVel = 1000.0f; // adjust as needed for your simulation
-    if (velocity.x > maxVel) velocity.x = maxVel;
-    if (velocity.x < -maxVel) velocity.x = -maxVel;
-    if (velocity.y > maxVel) velocity.y = maxVel;
-    if (velocity.y < -maxVel) velocity.y = -maxVel;
+        // Resolve overlap
+        if (dist < minDist && dist > 0) {
+            position.x += nx * (overlap/2);
+            position.y += ny * (overlap/2);
+            other->position.x -= nx * (overlap/2);
+            other->position.y -= ny * (overlap/2);
+        }
+
+        // clamp speed
+        const float MAX_SPEED = env->maxSpeed;
+        float speed = sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+        if (speed > MAX_SPEED) {
+            velocity.x = velocity.x / speed * MAX_SPEED;
+            velocity.y = velocity.y / speed * MAX_SPEED;
+        }
+        float otherSpeed = sqrt(other->velocity.x * other->velocity.x + other->velocity.y * other->velocity.y);
+        if (otherSpeed > MAX_SPEED) {
+            other->velocity.x = other->velocity.x / otherSpeed * MAX_SPEED;
+            other->velocity.y = other->velocity.y / otherSpeed * MAX_SPEED;
+        }
+    }
 
     if (env->nBodyMode) {
         velocity.x += totalAcc.x * env->timeScale * delta;
