@@ -68,18 +68,18 @@ void Particle::process_physics(std::int32_t delta) {
     position.y += appliedY;
 
     // Arena bounds collision (for top-left origin, size.x is radius)
-    if (position.x < 0) {
-        position.x = 0;
+    if (position.x - radius < 0) {
+        position.x = radius;
         velocity.x = fabs(velocity.x);
-    } else if (position.x + radius * 2 > arenaSize.x) {
-        position.x = arenaSize.x - radius * 2;
+    } else if (position.x + radius > arenaSize.x) {
+        position.x = arenaSize.x - radius;
         velocity.x = -fabs(velocity.x);
     }
-    if (position.y < 0) {
-        position.y = 0;
+    if (position.y - radius < 0) {
+        position.y = radius;
         velocity.y = fabs(velocity.y);
-    } else if (position.y + radius * 2 > arenaSize.y) {
-        position.y = arenaSize.y - radius * 2;
+    } else if (position.y + radius > arenaSize.y) {
+        position.y = arenaSize.y - radius;
         velocity.y = -fabs(velocity.y);
     }
 
