@@ -3,8 +3,6 @@
 
 #include "collisionbody2d.hpp"
 
-#define MULTIPLIER 2
-
 class Environment;
 
 class KineticBody2D : public CollisionBody2D {

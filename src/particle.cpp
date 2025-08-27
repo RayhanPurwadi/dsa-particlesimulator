@@ -64,8 +64,8 @@ void Particle::process_physics(std::int32_t delta) {
     float radius = size.x;
 
     // Move particle
-    float appliedX = velocity.x * MULTIPLIER * delta / SECOND;
-    float appliedY = velocity.y * MULTIPLIER * delta / SECOND;
+    float appliedX = velocity.x * env->timeScale * delta / SECOND;
+    float appliedY = velocity.y * env->timeScale * delta / SECOND;
     position.x += appliedX;
     position.y += appliedY;
 

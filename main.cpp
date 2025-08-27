@@ -93,13 +93,22 @@ int main() {
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
 		ImGui::Text("Spawner");
+		ImGui::SetWindowFontScale(1.0f);
+
+		ImGui::Spacing();
+		ImGui::SetWindowFontScale(2.0f);
+		ImGui::Text("Environment");
+		ImGui::SetWindowFontScale(1.0f);
+
+		ImGui::SliderFloat("Timescale", &env.timeScale, 0.0f, 100.0f);
 
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
 		ImGui::Text("Stats");
+		ImGui::SetWindowFontScale(1.0f);
 
 		ImGui::PopTextWrapPos();
-		ImGui::SetWindowFontScale(1.0f); 
+		ImGui::SetWindowFontScale(1.0f);
 		ImGui::End();
 
 		window.clear();

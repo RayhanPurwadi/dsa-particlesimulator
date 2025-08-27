@@ -13,6 +13,7 @@ class Environment {
 	public:
 	std::vector<Particle*> particles;
 	ImVec2 arenaSize;
+	float timeScale = 1;
 	~Environment();
 	void render(sf::RenderWindow* window, std::int32_t delta);
 	size_t create_particle(ImVec2 pos, ImVec2 size, ImVec2 initial_velocity);
