@@ -104,6 +104,10 @@ int main() {
 		ImGui::SameLine();
 		ImGui::SliderFloat("##Timescale", &env.timeScale, 0.0f, 100.0f);
 
+		ImGui::Text("N-Body");
+		ImGui::SameLine();
+		ImGui::Checkbox("##N-Body", &env.nBodyMode);
+
 		ImGui::Spacing();
 		ImGui::SetWindowFontScale(2.0f);
 		ImGui::Text("Stats");

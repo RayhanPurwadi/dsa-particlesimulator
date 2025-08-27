@@ -7,6 +7,7 @@
 
 class Particle : public Circle {
 	public:
+	size_t mass = 1000; // kg
 	size_t speed;
 	ImVec2 velocity;
 	bool haveINeverEverDoThis;

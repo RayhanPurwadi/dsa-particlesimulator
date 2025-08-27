@@ -85,14 +85,18 @@ void Particle::process_physics(std::int32_t delta) {
         velocity.y = -fabs(velocity.y);
     }
 
-    // Particle-particle collision
+    ImVec2 totalAcc = {0, 0};
     for (Particle *other : env->particles) {
         if (other == this) continue;
-        float oRad = other->size.x;
+
+        double oRad = other->size.x;
         ImVec2 oPos = other->position;
-        float dx = position.x - oPos.x;
-        float dy = position.y - oPos.y;
-        float dist = sqrt(dx*dx + dy*dy);
+
+        double dx = position.x - oPos.x;
+        double dy = position.y - oPos.y;
+        double dist = sqrt(dx*dx + dy*dy);
+
+        // Particle-particle collision
         float minDist = radius + oRad;
         if (dist < minDist && dist > 0) {
             // Resolve overlap
@@ -119,6 +123,26 @@ void Particle::process_physics(std::int32_t delta) {
             other->velocity.x = tx * dpTan2 + nx * v2n;
             other->velocity.y = ty * dpTan2 + ny * v2n;
         }
+
+        // N-Body simulation
+        if (env->nBodyMode && dist > 0) {
+#define G_CONSTANT (double)(6.6743) * pow(10, -1) // use 10^-1 for simulation purpose
+            double epsilon = 1e-2; // Softening factor
+            double r = dist;
+            double force = (G_CONSTANT * mass * other->mass) / (r * r + epsilon);
+            ImVec2 forceV = {
+                (oPos.x - position.x) / r,
+                (oPos.y - position.y) / r
+            };
+            totalAcc.x += force * forceV.x / mass;
+            totalAcc.y += force * forceV.y / mass;
+#undef G_CONSTANT
+        }
+    }
+
+    if (env->nBodyMode) {
+        velocity.x += totalAcc.x * env->timeScale * delta;
+        velocity.y += totalAcc.y * env->timeScale * delta;
     }
 
     // Calculate speed from velocity for color
