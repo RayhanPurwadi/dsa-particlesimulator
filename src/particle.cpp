@@ -138,6 +138,13 @@ void Particle::process_physics(std::int32_t delta) {
         }
     }
 
+    // Clamp velocity to prevent it from going nuts after resize
+    float maxVel = 1000.0f; // adjust as needed for your simulation
+    if (velocity.x > maxVel) velocity.x = maxVel;
+    if (velocity.x < -maxVel) velocity.x = -maxVel;
+    if (velocity.y > maxVel) velocity.y = maxVel;
+    if (velocity.y < -maxVel) velocity.y = -maxVel;
+
     if (env->nBodyMode) {
         velocity.x += totalAcc.x * env->timeScale * delta;
         velocity.y += totalAcc.y * env->timeScale * delta;

@@ -31,11 +31,20 @@ int main() {
 	);
 
 	while (window.isOpen()) {
-		while (const std::optional event = window.pollEvent()) {
+		while (std::optional<sf::Event> event = window.pollEvent()) {
 			ImGui::SFML::ProcessEvent(window, *event);
 
 			if (event->is<sf::Event::Closed>()) {
 				window.close();
+			} else if (event->is<sf::Event::Resized>()) {
+				const auto* resize = event->getIf<sf::Event::Resized>();
+				env.arenaSize.x = resize->size.x;
+                env.arenaSize.y = resize->size.y;
+				sf::FloatRect view(
+					sf::Vector2f(0.0f, 0.0f),
+					sf::Vector2f((float)resize->size.x, (float)resize->size.y)
+				);
+				window.setView(sf::View(view));
 			}
 		}
 
@@ -58,6 +67,7 @@ int main() {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
         ImGui::Begin("DockSpace Host", nullptr, host_window_flags);
+		ImVec2 windowSize = ImGui::GetWindowSize();
         ImGui::PopStyleVar(3);
 
         ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
@@ -82,15 +92,13 @@ int main() {
             ImGui::DockBuilderFinish(dockspace_id);
         }
 
-		ImVec2 arenaSize = ImGui::GetWindowSize();
         ImGui::End();
 
 		ImGui::Begin("Configuration");
-		ImVec2 windowSize = ImGui::GetWindowSize();
-		arenaSize.x -= windowSize.x;
+		ImVec2 configWindowSize = ImGui::GetWindowSize();
 
 		ImGui::SetWindowFontScale(1.3f);
-		ImGui::PushTextWrapPos(windowSize.x);
+		ImGui::PushTextWrapPos(configWindowSize.x);
 
 		ImGui::Text("(C) 2025 Rayhan D Purwadi");
 		ImGui::Text("You can set numerous things in this configuration window");
@@ -122,11 +130,11 @@ int main() {
 		ImGui::SetWindowFontScale(1.0f);
 		ImGui::End();
 
+		env.arenaSize.x = windowSize.x - configWindowSize.x;
+		env.arenaSize.y = windowSize.y;
+
 		window.clear();
 
-		env.arenaSize.x = arenaSize.x;
-		env.arenaSize.y = arenaSize.y;
-		
 		env.render(&window, delta);
 		ImGui::SFML::Render(window);
 		
