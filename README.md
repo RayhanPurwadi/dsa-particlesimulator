@@ -10,7 +10,7 @@
 ```sh
 git clone --recursive https://github.com/RayhanPurwadi/dsa-particlesimulator
 make deps
-make download
+make sfml
 make
 chmod +x ./particlesimulator
 ./particlesimulator
